@@ -1,0 +1,16 @@
+.flex {
+    display: flex;
+}
+
+.centre {
+    justify-content: center;
+    align-items: center;
+}
+
+.min-h-screen {
+    min-height: calc(100vh - 80px);
+}
+
+.text-centre {
+    text-align: center;
+}

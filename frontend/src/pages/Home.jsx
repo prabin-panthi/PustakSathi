@@ -2,12 +2,9 @@ import { Link } from "react-router-dom";
 
 function Home() {
     return (
-        <>
-            <Link to="/login">Login</Link><br/>
-            <Link to="/register">Register</Link><br/>
-            <Link to="/dashboard">Dashboard</Link><br/>
-            <Link to="/readbooks">Read Books</Link>
-        </>
+        <div><br></br><br></br>
+            <h1><Link to={"https://www.instagram.com/reel/DXeQ58lDXrl/"}>Sujeet Gaurab please project gara</Link></h1>
+        </div >
     );
 }
 

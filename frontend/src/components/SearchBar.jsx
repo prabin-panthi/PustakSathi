@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import api from "../api";
 
 // Styles grouped at the very top to guarantee initialization safety
@@ -73,6 +73,8 @@ function SearchBar({ setRecommendations }) {
     setSearch(e.target.value);
   };
 
+ 
+
   useEffect(() => {
     const timer = setTimeout(() => {
       if (search.trim() === "") {
@@ -84,6 +86,9 @@ function SearchBar({ setRecommendations }) {
         .get(`/api/books/search/?q=${encodeURIComponent(search)}`)
         .then((res) => {
           setBooks(res.data);
+        })
+        .catch((err) => {
+          console.error(err); // 
         });
     }, 500);
 
@@ -94,22 +99,33 @@ function SearchBar({ setRecommendations }) {
 
   const handleSearchClick = async (e) => {
     e.preventDefault();
-    const res = await api.get(
-      `/api/books/recommend/?q=${encodeURIComponent(search)}`,
-    );
-    if (typeof setRecommendations === "function") {
-      setRecommendations(res.data.Recommendations);
+    try {
+      // ✅ Kept try/catch safety wrapper
+      const res = await api.get(
+        `/api/books/recommend/?q=${encodeURIComponent(search)}`,
+      );
+      if (typeof setRecommendations === "function") {
+        // 🛡️ Kept crash safety guard
+        setRecommendations(res.data.Recommendations);
+      }
+    } catch (err) {
+      console.error(err);
     }
   };
 
   const handleBookClick = async (title) => {
     setShowSuggestions(false);
     setSearch(title);
-    const res = await api.get(
-      `/api/books/recommend/?q=${encodeURIComponent(title)}`,
-    );
-    if (typeof setRecommendations === "function") {
-      setRecommendations(res.data.Recommendations);
+    try {
+      const res = await api.get(
+        `/api/books/recommend/?q=${encodeURIComponent(title)}`,
+      );
+      if (typeof setRecommendations === "function") {
+        // 🛡️ Kept crash safety guard
+        setRecommendations(res.data.Recommendations);
+      }
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -118,6 +134,7 @@ function SearchBar({ setRecommendations }) {
       {/* The Integrated Main Input Box */}
       <div style={searchStyles.searchForm}>
         <input
+          ref={typeof inputRef !== "undefined" ? inputRef : null} 
           type="text"
           placeholder="Search catalog or genres..."
           value={search}
