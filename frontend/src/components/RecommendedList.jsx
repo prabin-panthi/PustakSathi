@@ -9,6 +9,7 @@ function RecommendedList({ recommendations }) {
       res.data;
     });
   };
+
   return (
     <>
       <div
@@ -18,12 +19,30 @@ function RecommendedList({ recommendations }) {
           gap: "20px",
         }}
       >
-        {recommendations.map((book) => {
+        {/* 🛡️ Added a fallback to an empty array so it never crashes if recommendations is undefined */}
+        {(recommendations || []).map((book) => {
           return (
             <BookTile
               key={book.isbn}
               book={book}
-              action={<button onClick={(e) => handleMarkAsRead(e, book)}>Mark as Read</button>}
+              action={
+                <button
+                  onClick={(e) => handleMarkAsRead(e, book)}
+                  style={{
+                    padding: "8px 12px",
+                    backgroundColor: "#f3f4f6",
+                    color: "#4b5563",
+                    border: "1px solid #e5e7eb",
+                    borderRadius: "6px",
+                    cursor: "pointer",
+                    fontSize: "12px",
+                    fontWeight: "600",
+                    width: "100%",
+                  }}
+                >
+                  Mark as Read
+                </button>
+              }
             />
           );
         })}

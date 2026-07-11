@@ -1,4 +1,5 @@
 import json
+from matplotlib.pyplot import title
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.views.decorators.csrf import csrf_exempt
@@ -357,6 +358,25 @@ def get_recommendation_view(request):
             .lower()
             .translate(str.maketrans("", "", string.punctuation))
         )
+    #try code
+    normalized = normalize_title(title)
+
+    print("Searching:", normalized)
+    print("Found:", normalized in indices_title.index)
+
+    if normalized not in indices_title.index:
+     print("Total indexed titles:", len(indices_title))
+     print(indices_title.index[:20])
+
+     return Response(
+        {
+            "Recommendations": [],
+            "message": "Book not found in recommendation index."
+        },
+        status=200,
+     )
+
+
     
     titles = [title]
 

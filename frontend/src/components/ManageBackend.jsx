@@ -14,20 +14,18 @@ const ManageBackend = () => {
     description: "",
   });
   const [isEditing, setIsEditing] = useState(false);
+  const token = localStorage.getItem("access");
+  // Build fresh context headers dynamically
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
+  };
 
   const fetchData = async () => {
     try {
-      const token = localStorage.getItem("access");
-
       if (!token) {
         throw new Error("Unauthenticated: Token missing.");
       }
-
-      // Build fresh context headers dynamically
-      const headers = {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      };
 
       const [booksRes, usersRes] = await Promise.all([
         fetch("http://127.0.0.1:8000/api/admin-panel/books/", { headers }),

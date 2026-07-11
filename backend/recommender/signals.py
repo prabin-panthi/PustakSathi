@@ -5,4 +5,6 @@ from .recommender import rebuild_recommendation_data
 
 @receiver(post_save, sender=Book)
 def on_book_saved(sender, instance, created, **kwargs):
+    #if created:
     rebuild_recommendation_data()
+    # pass

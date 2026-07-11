@@ -17,7 +17,7 @@ class Wishlist(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = ('user_id', 'book_id')
+        unique_together = ('user', 'book')
     
 class ReadBooks(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="readbooks")
